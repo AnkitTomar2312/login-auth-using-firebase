@@ -1,9 +1,9 @@
-import LogIn from "./Components/LogIn";
+import MuiLogIn from "./Components/MuiLogIn";
 
 function App() {
   return (
     <div className="App">
-      <LogIn />
+      <MuiLogIn />
     </div>
   );
 }
