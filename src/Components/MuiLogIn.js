@@ -4,7 +4,53 @@ import React, { useState } from "react";
 
 const MuiLogIn = () => {
   const [isSignIn, setIsSignIn] = useState(false);
-  console.log(isSignIn);
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  var name, value;
+
+  const getUserData = (event) => {
+    event.preventDefault();
+    name = event.target.name;
+    value = event.target.value;
+
+    setUser({
+      ...user,
+      [name]: value,
+    });
+  };
+  const postdata = async (event) => {
+    const { name, email, password } = user;
+    if (name && email && password) {
+      const response = await fetch(
+        "https://login-auth-d8181-default-rtdb.firebaseio.com/userInfoForm.json",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+          }),
+        }
+      );
+      if (response) {
+        setUser({
+          name: "",
+          email: "",
+          password: "",
+        });
+        alert("Data Stored Successfully");
+      }
+    } else {
+      alert("Some Error Occured");
+    }
+  };
   return (
     <>
       <form>
@@ -30,28 +76,38 @@ const MuiLogIn = () => {
           </Typography>
           {isSignIn && (
             <TextField
+              name="name"
               margin="normal"
               variant="outlined"
               type={"text"}
               placeholder="Name.."
+              value={user.name}
             />
           )}
           <TextField
+            name="email"
             margin="normal"
             variant="outlined"
             type={"email"}
             placeholder="Email.."
+            onChange={getUserData}
+            value={user.email}
           />
           <TextField
+            name="password"
             margin="normal"
             variant="outlined"
             type={"password"}
             placeholder="Password.."
+            onChange={getUserData}
+            value={user.password}
           />
           <Button
+            onClick={postdata}
             sx={{ marginTop: 3, borderRadius: 3 }}
             variant="contained"
             color="warning"
+            onChange={getUserData}
           >
             {isSignIn ? "Signup" : "Login"}
           </Button>
