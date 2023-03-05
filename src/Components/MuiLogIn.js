@@ -1,6 +1,6 @@
 import { TextField, Typography, Button } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const MuiLogIn = () => {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -9,6 +9,9 @@ const MuiLogIn = () => {
     email: "",
     password: "",
   });
+  useEffect(() => {
+    console.log("State changes");
+  }, [isSignIn]);
 
   var name, value;
 
@@ -24,7 +27,8 @@ const MuiLogIn = () => {
   };
   const postdata = async (event) => {
     const { name, email, password } = user;
-    if (name && email && password) {
+
+    if (email && password) {
       const response = await fetch(
         "https://login-auth-d8181-default-rtdb.firebaseio.com/userInfoForm.json",
         {
@@ -81,6 +85,7 @@ const MuiLogIn = () => {
               variant="outlined"
               type={"text"}
               placeholder="Name.."
+              onChange={getUserData}
               value={user.name}
             />
           )}

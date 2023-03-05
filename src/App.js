@@ -1,3 +1,4 @@
+import LogIn from "./Components/LogIn";
 import MuiLogIn from "./Components/MuiLogIn";
 
 function App() {
